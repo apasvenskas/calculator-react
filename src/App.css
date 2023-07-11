@@ -1,0 +1,56 @@
+.App {
+  text-align: center;
+}
+
+*, *::before, *::after{
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: linear-gradient(to right, rgba(255, 5, 5, 0.564), #00ff045a);
+}
+
+.calculator {
+  display: grid;
+  margin-top: 2rem;
+  grid-template-columns: repeat(4, 6rem);
+  grid-template-rows: minmax(7rem, auto);
+}
+
+.calculator > button {
+  cursor: pointer;
+  font-size: 2.0rem;
+  border: 2px solid black;
+}
+
+.calculator > button:hover,
+.calculator > button:focus{
+  background-color: rgba(225, 255, 255, .75);
+}
+
+.large {
+  grid-column: span 2;
+}
+
+.display {
+grid-column: 1/-1;
+background-color: rgba(0, 0, 0, .75);
+display: flex; 
+flex-direction: column;
+align-items: flex-end;
+justify-content: space-around;
+padding: .75rem;
+word-wrap: break-word;
+word-break: break-all;
+}
+
+.display .previous-operaend {
+  color: rgba(255, 255, 255, .75);
+}
+
+.display .current-operaend{
+  color: rgba(255, 255, 255, .75);
+  font-size: 2.8rem;
+}
+
+

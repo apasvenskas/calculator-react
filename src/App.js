@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import DigiButton from './DigitButton';
+import OperationButton from './OperationButton';
 import './App.css';
 
 export const ACTIONS = {
@@ -15,10 +16,30 @@ let currentOperand = "";
 function reducer(state, {type, payload}){
   switch(type) {
     case ACTIONS.ADD_DIGIT:
+      if (payload.digit === "0" && state.currentOperand === "0") {
+        return state
+      }
+      if (payload.digit === "." && state.currentOperand.includes(".")) {
+         return state
+      }
       return {
         ...state,
         currentOperand: `${currentOperand || "" }${payload.digit}`,
       }
+      case ACTIONS.CHOOSE_OPERATION:
+        if(state.currentOperand == null && state.previousOperand == null) {
+          return state; 
+        }
+        if (state.previousOperand == null) {
+          return {
+            ...state,
+            operation: payload.operation,
+            previousOperand: state.currentOperand,
+            currentOperand: null,
+          }
+        }
+      case ACTIONS.CLEAR:
+        return {}
   }
 }
 
@@ -31,24 +52,24 @@ function App() {
       <div className='previous-operaend'>{previousOperand} {operation} </div>
       <div className='current-operaend'> {currentOperand} </div>
     </div>
-    <button className='large'>AC</button>
-    <button>DEL</button>
-    <button>➗</button>
+    <button className='large' onClick={() => dispatch({ type: ACTIONS.CLEAR })} >AC</button>
+    <OperationButton operation='DEL' dispatch={dispatch} />
+    <OperationButton operation='➗' dispatch={dispatch} />
     <DigiButton digit='1' dispatch={dispatch} />
     <DigiButton digit='2' dispatch={dispatch} />
     <DigiButton digit='3' dispatch={dispatch} />
-    <button>∗</button>
+    <OperationButton operation='∗' dispatch={dispatch} />
     <DigiButton digit='4' dispatch={dispatch} />
     <DigiButton digit='5' dispatch={dispatch} />
     <DigiButton digit='6' dispatch={dispatch} />
-    <button>➕</button>
+    <OperationButton operation='➕' dispatch={dispatch} />
     <DigiButton digit='7' dispatch={dispatch} />
     <DigiButton digit='8' dispatch={dispatch} />
     <DigiButton digit='9' dispatch={dispatch} />
-    <button>➖</button>
-    <button>.</button>
+    <OperationButton operation='➖' dispatch={dispatch} />
+    <DigiButton digit='.' dispatch={dispatch} />
     <DigiButton digit='0' dispatch={dispatch} />
-    <button className='large' >=</button>
+    <button className='large'>=</button>
   </div>
   )
 }
